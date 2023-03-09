@@ -16,7 +16,12 @@ async function traerOrden(id) {
     const result = await connection.query('SELECT * FROM orden WHERE id = ? ', id);
     return result[0];
 }
+async function verOrdenes(id) {
+    const result = await connection.query('SELECT * FROM orden');
+    return result[0];
+}
 module.exports = {
     crearOrden,
-    traerOrden
+    traerOrden,
+    verOrdenes
 };

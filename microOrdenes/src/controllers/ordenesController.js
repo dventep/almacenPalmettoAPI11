@@ -2,6 +2,11 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 const ordenesModel = require('../models/ordenesModel');
+router.get('/ordenes', async (req, res) => {
+    var result;
+    result = await ordenesModel.verOrdenes();
+    res.json(result);
+});
 router.get('/ordenes/:id', async (req, res) => {
     const id = req.params.id;
     var result;

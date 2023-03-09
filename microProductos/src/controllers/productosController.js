@@ -3,10 +3,8 @@ const router = Router();
 const productosModel = require('../models/productosModel');
 
 router.get('/productos', async (req, res) => {
-    const id = req.params.id;
     var result;
     result = await productosModel.traerProductos();
-    //console.log(result);
     res.json(result);
 });
 router.get('/productos/:id', async (req, res) => {
