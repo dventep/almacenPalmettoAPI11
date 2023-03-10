@@ -18,8 +18,8 @@ async function validarUsuario(usuario, password) {
     const result = await connection.query('SELECT * FROM user WHERE usuario = ? AND password = ? ', [usuario, password]);
     return result[0];
 }
-async function crearUsuario(nombre, apellido, usuario, password, email) {
-    const result = await connection.query('INSERT INTO user VALUES(null,?,?,?,?,?,?)', [nombre, apellido, usuario, password, "", email]);
+async function crearUsuario(nombre, apellido, usuario, password, telefono, email) {
+    const result = await connection.query('INSERT INTO user VALUES(null,?,?,?,?,?,?)', [nombre, apellido, usuario, password, telefono, email]);
     return result;
 }
 module.exports = {

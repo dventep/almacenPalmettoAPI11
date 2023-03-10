@@ -24,8 +24,9 @@ router.post('/usuarios', async (req, res) => {
     const apellido = req.body.apellido;
     const usuario = req.body.usuario;
     const password = req.body.password;
+    const telefono = req.body.telefono;
     const email = req.body.email;
-    var result = await usuariosModel.crearUsuario(nombre, apellido, usuario, password, email);
+    var result = await usuariosModel.crearUsuario(nombre, apellido, usuario, password, telefono, email);
     res.send("usuario creado");
 });
 module.exports = router;
