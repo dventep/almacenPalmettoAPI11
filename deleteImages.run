@@ -1,0 +1,3 @@
+sudo docker stop db_micro products_micro users_micro orders_micro django_front
+sudo docker rm db_micro products_micro users_micro orders_micro django_front
+sudo docker rmi products_micro users_micro orders_micro django_front
