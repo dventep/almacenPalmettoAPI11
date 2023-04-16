@@ -1,0 +1,84 @@
+services:
+#  front_django:
+#    build: almacenPalmetto11/.
+#    image: front_django
+#    container_name: front_django   
+#    command: python manage.py runserver 0.0.0.0:8000
+#    ports:
+#      - "8000:8000"
+
+  db:
+    image: mysql:5.7
+    restart: always
+    ports:
+      - "32000:3306"
+    expose:
+      - "32000"
+    env_file:
+      - ./almacenPalmettoAPI11/process.env
+    networks:
+      - net
+    volumes:
+      - ./almacenPalmettoAPI11/db:/docker-entrypoint-initdb.d/:ro
+    container_name: db_micro
+
+  products_micro:
+    build: ./almacenPalmettoAPI11/microProductos/.
+    image: products_micro
+    container_name: products_micro
+    command: node src/index.js
+    ports:
+      - "3002:3002"
+    depends_on:
+      - db
+    links:
+      - db
+    env_file:
+      - ./almacenPalmettoAPI11/process.env
+    networks:
+      - net
+
+  users_micro:
+    build: ./almacenPalmettoAPI11/microUsuarios/.
+    image: users_micro
+    container_name: users_micro
+    command: node src/index.js
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db
+    links:
+      - db
+    env_file:
+      - ./almacenPalmettoAPI11/process.env
+    networks:
+      - net
+
+  orders_micro:
+    build: ./almacenPalmettoAPI11/microOrdenes/.
+    image: orders_micro
+    container_name: orders_micro
+    command: node src/index.js
+    ports:
+      - "3003:3003"
+    depends_on:
+      - db
+    links:
+      - db
+    env_file:
+      - ./almacenPalmettoAPI11/process.env
+    networks:
+      - net
+
+  django_front:
+    build: almacenPalmetto11/.
+    image: django_front
+    container_name: django_front
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    networks:
+      - net
+
+networks:
+  net:
