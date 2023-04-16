@@ -9,6 +9,8 @@ const connection = mysql.createPool({
     database: 'almacen'
 });
 async function crearOrden(orden) {
+    console.log('Holaaa error');
+    console.log(orden)
     const nombreCliente = orden.nombreCliente;
     const emailCliente = orden.emailCliente;
     const totalCuenta = orden.totalCuenta;
