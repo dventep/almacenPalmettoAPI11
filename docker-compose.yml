@@ -11,18 +11,15 @@ services:
     networks:
       - net
     volumes:
-      - ./almacenPalmettoAPI11/db:/docker-entrypoint-initdb.d/:ro
+      - ./almacenPalmettoAPI11/db:/docker-entrypoint-initdb.d/:rw
     container_name: db_micro
 
   storage_products_micro:
-    #build: ./almacenPalmettoAPI11/microProductos/.
     image: davidventep/storage_products_micro
     container_name: storage_products_micro
     command: node src/index.js
     ports:
       - "3002:3002"
-    depends_on:
-      - db
     links:
       - db
     env_file:
@@ -31,14 +28,11 @@ services:
       - net
 
   storage_users_micro:
-    #build: ./almacenPalmettoAPI11/microUsuarios/.
     image: davidventep/storage_users_micro
     container_name: storage_users_micro
     command: node src/index.js
     ports:
       - "3001:3001"
-    depends_on:
-      - db
     links:
       - db
     env_file:
@@ -47,28 +41,30 @@ services:
       - net
 
   storage_orders_micro:
-    #build: ./almacenPalmettoAPI11/microOrdenes/.
     image: davidventep/storage_orders_micro
     container_name: storage_orders_micro
     command: node src/index.js
     ports:
       - "3003:3003"
-    depends_on:
-      - db
     links:
       - db
+      - storage_users_micro
+      - storage_products_micro
     env_file:
       - ./almacenPalmettoAPI11/process.env
     networks:
       - net
 
   storage_django_front:
-    #build: almacenPalmetto11/.
     image: davidventep/storage_django_front
     container_name: storage_django_front
     command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
+    links:
+      - storage_users_micro
+      - storage_products_micro
+      - storage_orders_micro
     networks:
       - net
 
