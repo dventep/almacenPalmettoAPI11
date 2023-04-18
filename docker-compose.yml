@@ -12,7 +12,7 @@ services:
       - net
     volumes:
       - ./almacenPalmettoAPI11/db:/docker-entrypoint-initdb.d/:rw
-    container_name: db_micro
+    container_name: db
 
   storage_products_micro:
     image: davidventep/storage_products_micro
@@ -21,6 +21,8 @@ services:
     ports:
       - "3002:3002"
     links:
+      - db
+    depends_on:
       - db
     env_file:
       - ./almacenPalmettoAPI11/process.env
@@ -34,6 +36,8 @@ services:
     ports:
       - "3001:3001"
     links:
+      - db
+    depends_on:
       - db
     env_file:
       - ./almacenPalmettoAPI11/process.env
@@ -50,6 +54,8 @@ services:
       - db
       - storage_users_micro
       - storage_products_micro
+    depends_on:
+      - db
     env_file:
       - ./almacenPalmettoAPI11/process.env
     networks:
@@ -62,6 +68,10 @@ services:
     ports:
       - "8000:8000"
     links:
+      - storage_users_micro
+      - storage_products_micro
+      - storage_orders_micro
+    depends_on:
       - storage_users_micro
       - storage_products_micro
       - storage_orders_micro
